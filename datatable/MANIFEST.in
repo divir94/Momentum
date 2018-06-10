@@ -1,0 +1,5 @@
+include datatable/bundle.js
+include datatable/bundle.js.map
+include datatable/metadata.json
+include README.md
+include LICENSE.md
