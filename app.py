@@ -5,10 +5,12 @@ import dash_html_components as html
 import dash_table_experiments as dt
 import pandas as pd
 
+import datatable
+
 app = dash.Dash()
 
-# app.scripts.config.serve_locally = True
-# app.css.config.serve_locally = True
+app.scripts.config.serve_locally = True
+app.css.config.serve_locally = True
 
 DF_GAPMINDER = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv'
@@ -52,7 +54,15 @@ app.layout = html.Div([
         selected_row_indices=[],
         id='table'
     ),
-    html.Div(id='selected-indexes')
+    html.Div(id='selected-indexes'),
+
+    datatable.ExampleComponent(
+        id='input',
+        value='my-value',
+        label='my-label'
+    ),
+    html.Div(id='output')
+
 ], className='container')
 
 
@@ -63,6 +73,14 @@ def update_table(user_selection):
     """
     df = get_data_object(user_selection)
     return df.to_dict('records')
+
+
+@app.callback(
+    dash.dependencies.Output('output', 'children'),
+    [dash.dependencies.Input('input', 'value')])
+def display_output(value):
+    print('This is the value: {}'.format(value))
+    return 'You have entered {}'.format(value)
 
 
 app.css.append_css({
