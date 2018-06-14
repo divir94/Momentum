@@ -1,5 +1,39 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
+
+
+export default  class ExampleComponent extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+    handleToggle() {
+//        const el = findDOMNode(this.refs.toggle);
+//        $(el).slideToggle();
+           $('#test').slideToggle();
+    }
+
+    render() {
+    return (
+      <div className="long-desc" id={this.props.id}>
+           <ul className="profile-info">
+                <li>
+                     <span className="info-title">User Name : </span> Shuvo Habib
+                </li>
+           </ul>
+           <ul id="test" className="profile-info additional-profile-info-list" ref="toggle">
+                <li>
+                     <span className="info-email">Office Email</span> me@shuvohabib.com
+                </li>
+           </ul>
+           <div className="ellipsis-click" onClick={this.handleToggle}>
+                toggle me
+           </div>
+      </div>
+     );
+    }
+}
 
 /**
  * ExampleComponent is an example component.
@@ -8,48 +42,48 @@ import PropTypes from 'prop-types';
  * It renders an input with the property `value`
  * which is editable by the user.
  */
-export default class ExampleComponent extends Component {
-    render() {
-        const {id, label, setProps, value} = this.props;
-
-        return (
-            <div id={id}>
-                ExampleComponent: {label}
-                <input
-                    value={value}
-                    onChange={e => {
-                        /*
-                         * Send the new value to the parent component.
-                         * In a Dash app, this will send the data back to the
-                         * Python Dash app server.
-                         */
-                         if (setProps) {
-                             setProps({
-                                value: e.target.value
-                            });
-                         }
-                    }}
-                />
-            </div>
-        );
-    }
-}
+//export default class ExampleComponent extends Component {
+//    render() {
+//        const {id, label, setProps, value} = this.props;
+//
+//        return (
+//            <div id={id}>
+//                ExampleComponent: {label}
+//                <input
+//                    value={value}
+//                    onChange={e => {
+//                        /*
+//                         * Send the new value to the parent component.
+//                         * In a Dash app, this will send the data back to the
+//                         * Python Dash app server.
+//                         */
+//                         if (setProps) {
+//                             setProps({
+//                                value: e.target.value
+//                            });
+//                         }
+//                    }}
+//                />
+//            </div>
+//        );
+//    }
+//}
 
 ExampleComponent.propTypes = {
     /**
-     * The ID used to identify this compnent in Dash callbacks
+     * The ID used to identify this component in Dash callbacks
      */
     id: PropTypes.string,
-
-    /**
-     * A label that will be printed when this component is rendered.
-     */
-    label: PropTypes.string.isRequired,
-
-    /**
-     * The value displayed in the input
-     */
-    value: PropTypes.string,
+//
+//    /**
+//     * A label that will be printed when this component is rendered.
+//     */
+//    label: PropTypes.string.isRequired,
+//
+//    /**
+//     * The value displayed in the input
+//     */
+//    value: PropTypes.string,
 
     /**
      * Dash-assigned callback that should be called whenever any of the
