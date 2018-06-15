@@ -5,7 +5,9 @@ class Demo extends Component {
     constructor() {
         super();
         this.state = {
-            value: 'divir'
+            value: [
+                {'name': 'Divir Gupta', 'nickname': 'Divir'}
+            ]
         }
     }
 
@@ -17,10 +19,10 @@ class Demo extends Component {
                 <hr/>
                 <h2>ExampleComponent</h2>
                 <ExampleComponent
-                    id='my-id'
-                    label="This is an example label"
-                    value={this.state.value}
-                    setProps={newProps => this.setState({value: newProps.value})}
+                    id='example'
+//                    label="This is an example label"
+//                    value={this.state.value}
+//                    setProps={newProps => this.setState({value: newProps.value})}
                 />
                 <hr/>
             </div>

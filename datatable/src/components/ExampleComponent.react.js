@@ -1,37 +1,44 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
 import $ from 'jquery';
+import dataTables from 'datatables.net';
+
+$.DataTable = dataTables
+//import './dataTables.css'
 
 
-export default  class ExampleComponent extends Component {
-	constructor(props) {
-		super(props);
-	}
+var dataSet = [
+    [ 'Tiger Nixon', 'System Architect', 'Edinburgh', '5421', '2011/04/25', '$320,800' ],
+    [ 'Garrett Winters', 'Accountant', 'Tokyo', '8422', '2011/07/25', '$170,750' ],
+    [ 'Ashton Cox', 'Junior Technical Author', 'San Francisco', '1562', '2009/01/12', '$86,000' ]
+];
 
-    handleToggle() {
-//        const el = findDOMNode(this.refs.toggle);
-//        $(el).slideToggle();
-           $('#test').slideToggle();
+
+const columns = [
+    { title: 'Name' },
+    { title: 'Position' },
+    { title: 'Office' },
+    { title: 'Extn.' },
+    { title: 'Start date' },
+    { title: 'Salary' }
+]
+
+
+export default class ExampleComponent extends Component {
+    componentDidMount() {
+        $('#example').DataTable( {
+            data: dataSet,
+            columns: columns
+        });
     }
 
+
     render() {
-    return (
-      <div className="long-desc" id={this.props.id}>
-           <ul className="profile-info">
-                <li>
-                     <span className="info-title">User Name : </span> Shuvo Habib
-                </li>
-           </ul>
-           <ul id="test" className="profile-info additional-profile-info-list" ref="toggle">
-                <li>
-                     <span className="info-email">Office Email</span> me@shuvohabib.com
-                </li>
-           </ul>
-           <div className="ellipsis-click" onClick={this.handleToggle}>
-                toggle me
-           </div>
-      </div>
-     );
+        return (
+            <div>
+                <table id={this.props.id} />
+            </div>);
     }
 }
 
@@ -74,7 +81,7 @@ ExampleComponent.propTypes = {
      * The ID used to identify this component in Dash callbacks
      */
     id: PropTypes.string,
-//
+
 //    /**
 //     * A label that will be printed when this component is rendered.
 //     */

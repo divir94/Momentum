@@ -5,13 +5,13 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dicir94/datatable.git"
+    "url": "https://github.com/divir94/datatable.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dicir94/datatable/issues"
+    "url": "https://github.com/divir94/datatable/issues"
   },
-  "homepage": "https://github.com/dicir94/datatable",
+  "homepage": "https://github.com/divir94/datatable",
   "scripts": {
     "copy-lib": "copyfiles -u 1 lib/* datatable",
     "demo": "builder run demo",
@@ -36,7 +36,10 @@
   },
   "devDependencies": {
     "dash-components-archetype-dev": "^0.2.11",
+    "datatables.net": "^1.10.16",
+    "datatables.net-dt": "^1.10.16",
     "enzyme": "^2.8.2",
+    "jquery": "^3.3.1",
     "react-test-renderer": "^15.5.4"
   }
 }

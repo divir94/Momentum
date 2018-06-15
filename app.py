@@ -37,6 +37,11 @@ def get_data_object(user_selection):
 
 
 app.layout = html.Div([
+    # html.Script(src='/static/js/jquery.dataTables.min.js'),
+
+    html.Link(href='/static/css/jquery.dataTables.min.css', rel='stylesheet'),
+    html.Link(href='/static/css/dash.css', rel='stylesheet'),
+
     html.H4('DataTable'),
     html.Label('Report type:', style={'font-weight': 'bold'}),
     dcc.Dropdown(
@@ -57,13 +62,17 @@ app.layout = html.Div([
     html.Div(id='selected-indexes'),
 
     datatable.ExampleComponent(
-        id='input',
-        value='my-value',
-        label='my-label'
+        id='example'
     ),
     html.Div(id='output')
 
 ], className='container')
+
+
+@app.server.route('/static/<path:path>')
+def static_file(path):
+    static_folder = os.path.join(os.getcwd(), 'static')
+    return send_from_directory(static_folder, path)
 
 
 @app.callback(Output('table', 'rows'), [Input('field-dropdown', 'value')])
@@ -75,17 +84,28 @@ def update_table(user_selection):
     return df.to_dict('records')
 
 
-@app.callback(
-    dash.dependencies.Output('output', 'children'),
-    [dash.dependencies.Input('input', 'value')])
-def display_output(value):
-    print('This is the value: {}'.format(value))
-    return 'You have entered {}'.format(value)
+# @app.callback(
+#     dash.dependencies.Output('output', 'children'),
+#     [dash.dependencies.Input('input', 'value')])
+# def display_output(value):
+#     print('This is the value: {}'.format(value))
+#     return 'You have entered {}'.format(value)
 
 
-app.css.append_css({
-    'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
-})
+# app.scripts.append_script({
+#     'external_url': [
+#         '/static/js/jquery.dataTables.min.js',
+#     ]
+# })
+#
+#
+# app.css.append_css({
+#     'external_url': [
+#         '/static/css/dash.css',
+#         '/static/css/jquery.dataTables.min.css',
+#     ]
+# })
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
