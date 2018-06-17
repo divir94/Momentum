@@ -5,10 +5,10 @@ import $ from 'jquery';
 import dataTables from 'datatables.net';
 
 $.DataTable = dataTables
-//import './dataTables.css'
+//import 'datatables.net-dt/css/jquery.dataTables.css';
 
 
-export default class ExampleComponent extends Component {
+export default class DataTable extends Component {
     componentDidMount() {
         $('#' + this.props.id).DataTable( {
             data: this.props.data,
@@ -30,17 +30,13 @@ export default class ExampleComponent extends Component {
         dataTable.draw();
     }
 
-
     render() {
-        return (
-            <div>
-                <table id={this.props.id} />
-            </div>);
+        return <table id={this.props.id} className='display' width='100%'/>;
     }
 }
 
 
-ExampleComponent.propTypes = {
+DataTable.propTypes = {
     /**
      * The ID used to identify this component in Dash callbacks
      */
@@ -55,7 +51,6 @@ ExampleComponent.propTypes = {
      * Values of DataFrame
      */
     data: PropTypes.array,
-
 
     /**
      * Dash-assigned callback that should be called whenever any of the

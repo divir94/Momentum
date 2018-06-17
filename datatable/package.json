@@ -35,11 +35,13 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "css-loader": "^0.28.11",
     "dash-components-archetype-dev": "^0.2.11",
     "datatables.net": "^1.10.16",
     "datatables.net-dt": "^1.10.16",
     "enzyme": "^2.8.2",
     "jquery": "^3.3.1",
-    "react-test-renderer": "^15.5.4"
+    "react-test-renderer": "^15.5.4",
+    "style-loader": "^0.21.0"
   }
 }

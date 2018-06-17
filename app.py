@@ -6,7 +6,7 @@ import dash_html_components as html
 from dash_dangerously_set_inner_html import DangerouslySetInnerHTML
 from dash.dependencies import Input, Output
 
-import datatable
+from datatable import DataTable
 
 
 app = dash.Dash()
@@ -24,17 +24,16 @@ app.layout = html.Div([
     #     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     # '''),
     html.Link(href='/static/css/jquery.dataTables.min.css', rel='stylesheet'),
-    html.Link(href='/static/css/dash.css', rel='stylesheet'),
+    # html.Link(href='/static/css/dash.css', rel='stylesheet'),
 
     html.H4('Continents'),
     dcc.Dropdown(
         id='continents',
         options=[{'label': i, 'value': i} for i in DF['continent'].unique()],
-        value='Asia'
     ),
 
     html.H4('DataTable'),
-    datatable.ExampleComponent(
+    DataTable(
         id='example',
         columns=DF.columns.tolist(),
         data=DF.values.tolist(),

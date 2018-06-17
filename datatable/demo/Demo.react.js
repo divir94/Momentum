@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ExampleComponent} from '../src';
+import {DataTable} from '../src';
 
 
 const data = [
@@ -25,11 +25,10 @@ class Demo extends Component {
     render() {
         return (
             <div>
-                <h1>datatable Demo</h1>
+                <h1>DataTable Demo</h1>
 
                 <hr/>
-                <h2>ExampleComponent</h2>
-                <ExampleComponent
+                <DataTable
                     id='example'
                     columns={columns}
                     data={data}
