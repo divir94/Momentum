@@ -1,6 +1,17 @@
 import React, {Component} from 'react';
 import {ExampleComponent} from '../src';
 
+
+const data = [
+    [ 'Tiger Nixon', 'System Architect', 'Edinburgh', '5421', '2011/04/25', '$320,800' ],
+    [ 'Garrett Winters', 'Accountant', 'Tokyo', '8422', '2011/07/25', '$170,750' ],
+    [ 'Ashton Cox', 'Junior Technical Author', 'San Francisco', '1562', '2009/01/12', '$86,000' ]
+];
+
+
+const columns = [ 'Name', 'Position', 'Office', 'Exten.', 'Start Date', 'Salary'];
+
+
 class Demo extends Component {
     constructor() {
         super();
@@ -20,9 +31,8 @@ class Demo extends Component {
                 <h2>ExampleComponent</h2>
                 <ExampleComponent
                     id='example'
-//                    label="This is an example label"
-//                    value={this.state.value}
-//                    setProps={newProps => this.setState({value: newProps.value})}
+                    columns={columns}
+                    data={data}
                 />
                 <hr/>
             </div>

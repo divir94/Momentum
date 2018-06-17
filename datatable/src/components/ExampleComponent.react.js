@@ -8,29 +8,26 @@ $.DataTable = dataTables
 //import './dataTables.css'
 
 
-var dataSet = [
-    [ 'Tiger Nixon', 'System Architect', 'Edinburgh', '5421', '2011/04/25', '$320,800' ],
-    [ 'Garrett Winters', 'Accountant', 'Tokyo', '8422', '2011/07/25', '$170,750' ],
-    [ 'Ashton Cox', 'Junior Technical Author', 'San Francisco', '1562', '2009/01/12', '$86,000' ]
-];
-
-
-const columns = [
-    { title: 'Name' },
-    { title: 'Position' },
-    { title: 'Office' },
-    { title: 'Extn.' },
-    { title: 'Start date' },
-    { title: 'Salary' }
-]
-
-
 export default class ExampleComponent extends Component {
     componentDidMount() {
-        $('#example').DataTable( {
-            data: dataSet,
-            columns: columns
+        $('#' + this.props.id).DataTable( {
+            data: this.props.data,
+            columns: this.props.columns.map((name) => Object({'title': name}))
         });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(this.props.data) != JSON.stringify(prevProps.data)) {
+            console.log('React Data changed');
+            this.updateTable();
+        }
+    }
+
+    updateTable() {
+        const dataTable = $('#' + this.props.id).DataTable();
+        dataTable.clear();
+        dataTable.rows.add(this.props.data);
+        dataTable.draw();
     }
 
 
@@ -42,39 +39,6 @@ export default class ExampleComponent extends Component {
     }
 }
 
-/**
- * ExampleComponent is an example component.
- * It takes a property, `label`, and
- * displays it.
- * It renders an input with the property `value`
- * which is editable by the user.
- */
-//export default class ExampleComponent extends Component {
-//    render() {
-//        const {id, label, setProps, value} = this.props;
-//
-//        return (
-//            <div id={id}>
-//                ExampleComponent: {label}
-//                <input
-//                    value={value}
-//                    onChange={e => {
-//                        /*
-//                         * Send the new value to the parent component.
-//                         * In a Dash app, this will send the data back to the
-//                         * Python Dash app server.
-//                         */
-//                         if (setProps) {
-//                             setProps({
-//                                value: e.target.value
-//                            });
-//                         }
-//                    }}
-//                />
-//            </div>
-//        );
-//    }
-//}
 
 ExampleComponent.propTypes = {
     /**
@@ -82,15 +46,16 @@ ExampleComponent.propTypes = {
      */
     id: PropTypes.string,
 
-//    /**
-//     * A label that will be printed when this component is rendered.
-//     */
-//    label: PropTypes.string.isRequired,
-//
-//    /**
-//     * The value displayed in the input
-//     */
-//    value: PropTypes.string,
+    /**
+     * Columns names of DataFrame
+     */
+    columns: PropTypes.array,
+
+    /**
+     * Values of DataFrame
+     */
+    data: PropTypes.array,
+
 
     /**
      * Dash-assigned callback that should be called whenever any of the
