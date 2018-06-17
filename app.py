@@ -1,72 +1,45 @@
+import pandas as pd
+
 import dash
-from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table_experiments as dt
-import pandas as pd
+from dash_dangerously_set_inner_html import DangerouslySetInnerHTML
+from dash.dependencies import Input, Output
 
 import datatable
 
-app = dash.Dash()
 
+app = dash.Dash()
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
-DF_GAPMINDER = pd.read_csv(
-    'https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv'
-)
-DF_GAPMINDER = DF_GAPMINDER[DF_GAPMINDER['year'] == 2007]
-DF_GAPMINDER.loc[0:20]
-
-DF_SIMPLE = pd.DataFrame({
-    'x': ['A', 'B', 'C', 'D', 'E', 'F'],
-    'y': [4, 3, 1, 2, 3, 6],
-    'z': ['a', 'b', 'c', 'a', 'b', 'c']
-})
-
-
-dataframes = {'DF_GAPMINDER': DF_GAPMINDER,
-              'DF_SIMPLE': DF_SIMPLE}
-
-
-def get_data_object(user_selection):
-    """
-    For user selections, return the relevant in-memory data frame.
-    """
-    return dataframes[user_selection]
+DF = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
 
 
 app.layout = html.Div([
-    # html.Script(src='/static/js/jquery.dataTables.min.js'),
+    html.Script(src='/static/js/custom.js'),
+    html.Script(src='/static/js/jquery.dataTables.min.js'),
 
+    # DangerouslySetInnerHTML('''
+    #     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    # '''),
     html.Link(href='/static/css/jquery.dataTables.min.css', rel='stylesheet'),
     html.Link(href='/static/css/dash.css', rel='stylesheet'),
 
-    html.H4('DataTable'),
-    html.Label('Report type:', style={'font-weight': 'bold'}),
+    html.H4('Continents'),
     dcc.Dropdown(
-        id='field-dropdown',
-        options=[{'label': df, 'value': df} for df in dataframes],
-        value='DF_GAPMINDER',
-        clearable=False
+        id='continents',
+        options=[{'label': i, 'value': i} for i in DF['continent'].unique()],
+        value='Asia'
     ),
-    dt.DataTable(
-        # Initialise the rows
-        rows=[{}],
-        row_selectable=True,
-        filterable=True,
-        sortable=True,
-        selected_row_indices=[],
-        id='table'
-    ),
-    html.Div(id='selected-indexes'),
 
+    html.H4('DataTable'),
     datatable.ExampleComponent(
-        id='example'
+        id='example',
+        columns=DF.columns.tolist(),
+        data=DF.values.tolist(),
     ),
-    html.Div(id='output')
-
-], className='container')
+])
 
 
 @app.server.route('/static/<path:path>')
@@ -75,36 +48,13 @@ def static_file(path):
     return send_from_directory(static_folder, path)
 
 
-@app.callback(Output('table', 'rows'), [Input('field-dropdown', 'value')])
-def update_table(user_selection):
-    """
-    For user selections, return the relevant table
-    """
-    df = get_data_object(user_selection)
-    return df.to_dict('records')
-
-
-# @app.callback(
-#     dash.dependencies.Output('output', 'children'),
-#     [dash.dependencies.Input('input', 'value')])
-# def display_output(value):
-#     print('This is the value: {}'.format(value))
-#     return 'You have entered {}'.format(value)
-
-
-# app.scripts.append_script({
-#     'external_url': [
-#         '/static/js/jquery.dataTables.min.js',
-#     ]
-# })
-#
-#
-# app.css.append_css({
-#     'external_url': [
-#         '/static/css/dash.css',
-#         '/static/css/jquery.dataTables.min.css',
-#     ]
-# })
+@app.callback(
+    Output('example', 'data'),
+    [Input('continents', 'value')])
+def update_table(continent):
+    print('Dash updating continent {}'.format(continent))
+    filtered_df = DF[DF['continent'] == continent]
+    return filtered_df.values.tolist()
 
 
 if __name__ == '__main__':
